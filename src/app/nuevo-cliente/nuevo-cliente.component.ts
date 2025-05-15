@@ -1,0 +1,51 @@
+import { Component } from '@angular/core';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {provideNativeDateAdapter} from '@angular/material/core';
+import { NgIf } from '@angular/common';
+
+
+@Component({
+  selector: 'nuevo-cliente',
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf,
+    MatIconModule, MatCardModule, MatButtonModule, MatDatepickerModule], 
+  providers: [provideNativeDateAdapter()],
+  templateUrl: './nuevo-cliente.component.html',
+  styleUrl: './nuevo-cliente.component.scss'
+})
+export class NuevoClienteComponent {
+  clienteForm: FormGroup;
+
+  constructor(private readonly fb: FormBuilder) {
+    this.clienteForm = this.fb.group({
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      fechaNacimiento: ['', Validators.required]
+    });
+  }
+
+  onSubmit(): void {
+    this.clienteForm.markAllAsTouched();
+
+    if (this.clienteForm.valid) {
+      console.log('Formulario enviado con:', this.clienteForm.value);
+      
+      this.clienteForm.reset();
+      
+      // // Opcional pero recomendado: marcar todos los controles como pristine y untouched
+      Object.keys(this.clienteForm.controls).forEach(controlName => {
+        const control = this.clienteForm.get(controlName);
+        control?.clearValidators();
+        control?.reset();
+      });
+
+    }
+  }
+}

@@ -19,16 +19,20 @@ export class AppService {
   getClientesKpis() {
     return this.http.get<Kpis>(`${this._api_url}/kpideclientes`);
   }
+
+  crearCliente(cliente: Cliente) {
+    return this.http.post<Cliente>(`${this._api_url}/creacliente`, cliente);
+  }
 }
 
 
 export interface Cliente {
-  id: number,
+  id?: number,
   nombre: string,
   apellido: string,
   edad: number,
   fechaNacimiento: string,
-  fechaProbableMuerte: string,
+  fechaProbableMuerte?: string,
 }
 
 

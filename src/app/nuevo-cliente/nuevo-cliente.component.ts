@@ -10,6 +10,11 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { NgIf } from '@angular/common';
+import { AppService, Cliente } from '../app.service';
+
+import moment from 'moment';
+import { take, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -23,7 +28,10 @@ import { NgIf } from '@angular/common';
 export class NuevoClienteComponent {
   clienteForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly service: AppService
+  ) {
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
@@ -35,17 +43,46 @@ export class NuevoClienteComponent {
     this.clienteForm.markAllAsTouched();
 
     if (this.clienteForm.valid) {
+      this.crearCliente();
       console.log('Formulario enviado con:', this.clienteForm.value);
-      
-      this.clienteForm.reset();
-      
-      // // Opcional pero recomendado: marcar todos los controles como pristine y untouched
-      Object.keys(this.clienteForm.controls).forEach(controlName => {
-        const control = this.clienteForm.get(controlName);
-        control?.clearValidators();
-        control?.reset();
-      });
-
     }
+  }
+
+  private crearCliente() {
+    const fechaNacDatePicker = this.getFieldValue('fechaNacimiento');
+
+    const newCliente: Cliente = {
+      nombre: this.getFieldValue('nombre'),
+      apellido: this.getFieldValue('apellido'),
+      edad: this.getFieldValue('edad'),
+      fechaNacimiento: moment(fechaNacDatePicker).format('DD/MM/YYYY'),
+    }
+
+    this.service.crearCliente(newCliente)
+    .pipe(
+      take(1),
+      tap(resp => {
+        if(resp instanceof HttpErrorResponse) {
+          return;  
+        }
+
+        console.log({resp})
+        this.resetFormCliente();
+      })
+    ).subscribe()
+  }
+
+  private resetFormCliente() {
+    this.clienteForm.reset();
+      
+    Object.keys(this.clienteForm.controls).forEach(controlName => {
+      const control = this.clienteForm.get(controlName);
+      control?.clearValidators();
+      control?.reset();
+    });
+  }
+
+  private getFieldValue(fieldName: string) {
+    return this.clienteForm.get(fieldName)?.value;
   }
 }

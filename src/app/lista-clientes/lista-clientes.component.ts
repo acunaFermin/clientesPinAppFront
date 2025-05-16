@@ -42,7 +42,7 @@ export class ListaClientesComponent implements AfterViewInit {
           return;
         }
 
-        this.dataSource = new MatTableDataSource<Cliente>(resp);
+        this.dataSource = new MatTableDataSource<Cliente>((resp as Cliente[]).reverse());
         this.dataSource.paginator = this.paginator;
       })
     )

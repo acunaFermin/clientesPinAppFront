@@ -6,6 +6,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { AppService, Cliente } from '../../app.service';
 import { catchError, of, take, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SnackbarService } from '../../common/snackbar/snackbar.service';
 
 @Component({
   selector: 'lista-clientes',
@@ -27,7 +28,8 @@ export class ListaClientesComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private readonly service: AppService
+    private readonly service: AppService,
+    private readonly snackService: SnackbarService
   ) {
 
   }
@@ -39,6 +41,10 @@ export class ListaClientesComponent implements AfterViewInit {
       catchError(err => of(err)),
       tap(resp => {
         if(resp instanceof HttpErrorResponse) {
+          this.snackService.openSnackBarCustom({
+            message: 'Ocurrió un error. No se pudieron recuperar los clientes.',
+            type: 'error'
+          });
           return;
         }
 

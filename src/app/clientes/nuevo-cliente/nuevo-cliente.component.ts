@@ -10,11 +10,12 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { NgIf } from '@angular/common';
-import { AppService, Cliente } from '../app.service';
+import { AppService, Cliente } from '../../app.service';
 
 import moment from 'moment';
-import { take, tap } from 'rxjs';
+import { catchError, of, take, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SnackbarService } from '../../common/snackbar/snackbar.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class NuevoClienteComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly service: AppService
+    private readonly service: AppService,
+    private readonly snackService: SnackbarService
   ) {
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -69,12 +71,21 @@ export class NuevoClienteComponent {
     this.service.crearCliente(newCliente)
     .pipe(
       take(1),
+      catchError(err => of(err)),
       tap(resp => {
         if(resp instanceof HttpErrorResponse) {
+          this.snackService.openSnackBarCustom({
+            message: 'Ocurrió un error. No se pudo guardar el cliente.',
+            type: 'error'
+          });
           return;  
         }
 
-        console.log({resp})
+        this.snackService.openSnackBarCustom({
+          message: 'Nuevo cliente guardado con éxito!',
+          type: 'success'
+        });
+
         this.resetFormCliente();
       })
     ).subscribe()

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { HeaderComponent } from './header/header.component';
+import { SidenavComponent } from './common/sidenav/sidenav.component';
+import { HeaderComponent } from './common/header/header.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
   selector: 'app-root',

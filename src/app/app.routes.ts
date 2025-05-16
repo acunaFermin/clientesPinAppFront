@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { NuevoClienteComponent } from './nuevo-cliente/nuevo-cliente.component';
-import { ClientesKpiComponent } from './clientes-kpi/clientes-kpi.component';
-import { ListaClientesComponent } from './lista-clientes/lista-clientes.component';
+import { NuevoClienteComponent } from './clientes/nuevo-cliente/nuevo-cliente.component';
+import { ClientesKpiComponent } from './clientes/clientes-kpi/clientes-kpi.component';
+import { ListaClientesComponent } from './clientes/lista-clientes/lista-clientes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'nuevo-cliente', pathMatch: 'full' },

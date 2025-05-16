@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { AppService, Cliente } from '../app.service';
+import { AppService, Cliente } from '../../app.service';
 import { catchError, of, take, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 

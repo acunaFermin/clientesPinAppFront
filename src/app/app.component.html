@@ -1,5 +1,5 @@
 <mat-drawer-container class="h-screen">
-  <mat-drawer #drawer [mode]="drawerMode" [opened]="drawerMode === 'side'">
+  <mat-drawer #drawer [mode]="drawerMode" [opened]="drawerMode === 'side'" [style.width]="'200px'">
     <app-sidenav (navEvent)="drawerMode === 'over' && drawer.toggle()"></app-sidenav>
   </mat-drawer>
 

@@ -3,6 +3,6 @@
 
 export const environment = {
     production: true,
-    apiUrl: 'https://api.midominio.com/api',
+    apiUrl: 'https://http://3.145.138.166:8081/clientes',
     featureFlag: false
 };

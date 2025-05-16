@@ -35,7 +35,15 @@ export class NuevoClienteComponent {
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
+      edad: ['', Validators.required],
       fechaNacimiento: ['', Validators.required]
+    });
+
+    this.clienteForm.get('fechaNacimiento')?.valueChanges.subscribe((fecha) => {
+      if (fecha) {
+        const edad = this.calcularEdad(fecha);
+        this.clienteForm.get('edad')?.setValue(edad);
+      }
     });
   }
 
@@ -80,6 +88,10 @@ export class NuevoClienteComponent {
       control?.clearValidators();
       control?.reset();
     });
+  }
+
+  private calcularEdad(fechaNac: Date | string): number {
+    return moment().diff(moment(fechaNac), 'years');
   }
 
   private getFieldValue(fieldName: string) {

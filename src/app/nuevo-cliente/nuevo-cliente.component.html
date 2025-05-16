@@ -40,6 +40,17 @@
       </mat-form-field>
     </div>
 
+    <!-- edad -->
+    <div class="w-full">
+      <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
+        <mat-label>edad</mat-label>
+        <input matInput formControlName="edad" placeholder="Ingrese la edad">
+        <mat-error *ngIf="clienteForm.get('edad')?.hasError('required') && clienteForm.get('edad')?.touched">
+          
+          La edad es obligatoria
+        </mat-error>
+      </mat-form-field>
+    </div>
   </mat-card-content>
 
   <mat-card-actions class="mt-8">

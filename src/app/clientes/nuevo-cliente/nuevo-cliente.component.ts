@@ -16,6 +16,7 @@ import moment from 'moment';
 import { catchError, of, take, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnackbarService } from '../../common/snackbar/snackbar.service';
+import { fechaNoFuturaValidator, regex } from '../../common/utils';
 
 
 @Component({
@@ -35,10 +36,10 @@ export class NuevoClienteComponent {
     private readonly snackService: SnackbarService
   ) {
     this.clienteForm = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      edad: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required]
+      nombre:          ['', [Validators.required, Validators.pattern(regex.nombreApellido)]],
+      apellido:        ['', [Validators.required, Validators.pattern(regex.nombreApellido)]],
+      edad:            ['', [Validators.required, Validators.pattern(regex.isNumber)]],
+      fechaNacimiento: ['', [Validators.required, fechaNoFuturaValidator]]
     });
 
     this.clienteForm.get('fechaNacimiento')?.valueChanges.subscribe((fecha) => {

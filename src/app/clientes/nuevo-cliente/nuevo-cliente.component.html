@@ -1,61 +1,75 @@
-<div class="text-2xl">Crear cliente</div>
+<div class="text-2xl font-bold">Crear cliente</div>
 <div class="text-lg mt-2">Ingrese los datos del nuevo cliente</div>
 
-<form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
-  <mat-card-content class="mt-8 flex flex-col">
-    <!-- Nombre -->
-    
+<mat-card class="max-w-90 p-2 mt-6 !bg-white">
 
-    <div class="w-full">
-      <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" placeholder="Ingrese el nombre">
-        <mat-error *ngIf="clienteForm.get('nombre')?.hasError('required') && clienteForm.get('nombre')?.touched">
-          El nombre es obligatorio
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <!-- Apellido -->
-    <div class="w-full">
-      <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
-        <mat-label>Apellido</mat-label>
-        <input matInput formControlName="apellido" placeholder="Ingrese el apellido">
-        <mat-error *ngIf="clienteForm.get('apellido')?.hasError('required') && clienteForm.get('apellido')?.touched">
-          El apellido es obligatorio
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <!-- Fecha de nacimiento -->
-    <div class="w-full">
-      <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
-        <mat-label>Fecha de nacimiento</mat-label>
-        <input matInput formControlName="fechaNacimiento" [matDatepicker]="picker">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="clienteForm.get('fechaNacimiento')?.hasError('required') && clienteForm.get('fechaNacimiento')?.touched">
-          La fecha de nacimiento es obligatoria
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <!-- edad -->
-    <div class="w-full">
-      <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
-        <mat-label>edad</mat-label>
-        <input matInput formControlName="edad" placeholder="Ingrese la edad">
-        <mat-error *ngIf="clienteForm.get('edad')?.hasError('required') && clienteForm.get('edad')?.touched">
-          
-          La edad es obligatoria
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </mat-card-content>
-
-  <mat-card-actions class="mt-8">
-    <button mat-raised-button color="accent" type="submit" [disabled]="clienteForm.invalid">
-      Crear
-    </button>
-  </mat-card-actions>
-</form>
+  <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+    <mat-card-content class="flex flex-col">
+      
+      <!-- Nombre -->
+      <div class="w-full">
+        <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput formControlName="nombre" placeholder="Ingrese el nombre">
+          <mat-error *ngIf="clienteForm.get('nombre')?.hasError('required') && clienteForm.get('nombre')?.touched">
+            El nombre es obligatorio
+          </mat-error>
+          <mat-error *ngIf="clienteForm.get('nombre')?.hasError('pattern') && clienteForm.get('nombre')?.touched">
+            Ingrese un nombre válido
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!-- Apellido -->
+      <div class="w-full">
+        <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
+          <mat-label>Apellido</mat-label>
+          <input type="text" matInput formControlName="apellido" placeholder="Ingrese el apellido">
+          <mat-error *ngIf="clienteForm.get('apellido')?.hasError('required') && clienteForm.get('apellido')?.touched">
+            El apellido es obligatorio
+          </mat-error>
+          <mat-error *ngIf="clienteForm.get('apellido')?.hasError('pattern') && clienteForm.get('apellido')?.touched">
+            Ingrese un apellido válido
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!-- Fecha de nacimiento -->
+      <div class="w-full">
+        <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput formControlName="fechaNacimiento" [matDatepicker]="picker">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="clienteForm.get('fechaNacimiento')?.hasError('required') && clienteForm.get('fechaNacimiento')?.touched">
+            La fecha de nacimiento es obligatoria
+          </mat-error>
+          <mat-error *ngIf="clienteForm.get('fechaNacimiento')?.hasError('fechaFutura') && clienteForm.get('fechaNacimiento')?.touched">
+            La fecha de nacimiento no puede ser futura
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <!-- edad -->
+      <div class="w-full">
+        <mat-form-field appearance="outline" class="w-full max-w-80 mr-4 mb-4">
+          <mat-label>edad</mat-label>
+          <input type="number" matInput formControlName="edad" placeholder="Ingrese la edad">
+          <mat-error *ngIf="clienteForm.get('edad')?.hasError('required') && clienteForm.get('edad')?.touched">
+            La edad es obligatoria
+          </mat-error>
+          <mat-error *ngIf="clienteForm.get('edad')?.hasError('pattern') && clienteForm.get('edad')?.touched">
+            Debe ser numérico
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  
+    <mat-card-actions class="mt-8 flex justify-end">
+      <button 
+        mat-raised-button type="submit" [disabled]="clienteForm.invalid">
+        Crear
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
